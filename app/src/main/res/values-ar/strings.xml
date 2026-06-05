@@ -1520,4 +1520,11 @@
     <string name="collections_tab_all">الكل</string>
     <string name="collections_tab_combined">مجتمعة</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">إعدادات المتغيرات</string>
+    <string name="plugin_settings_save">حفظ</string>
+    <string name="plugin_settings_cancel">إلغاء</string>
+    <string name="plugin_settings_saved">تم حفظ الإعدادات بنجاح</string>
+    <string name="plugin_settings_placeholder">أدخل القيمة...</string>
 </resources>

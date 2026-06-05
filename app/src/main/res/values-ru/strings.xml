@@ -2530,4 +2530,11 @@
     <string name="debrid_picker_excluded_release_groups_subtitle">Скрывать выбранные релиз-группы.</string>
     <string name="subtitle_language_unknown">Неизвестный</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Настройки переменных</string>
+    <string name="plugin_settings_save">Сохранить</string>
+    <string name="plugin_settings_cancel">Отмена</string>
+    <string name="plugin_settings_saved">Настройки успешно сохранены</string>
+    <string name="plugin_settings_placeholder">Введите значение...</string>
 </resources>

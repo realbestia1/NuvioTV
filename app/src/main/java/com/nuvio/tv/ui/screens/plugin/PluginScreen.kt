@@ -43,6 +43,7 @@ import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -74,6 +75,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.tv.material3.Border
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
@@ -260,6 +262,7 @@ fun PluginScreenContent(
                             viewModel.onEvent(PluginUiEvent.ToggleScraper(scraper.id, enabled))
                         },
                         onTest = { viewModel.onEvent(PluginUiEvent.TestScraper(scraper.id)) },
+                        onSettingsClick = { viewModel.onEvent(PluginUiEvent.OpenScraperSettings(scraper)) },
                         isTesting = uiState.isTesting && uiState.testScraperId == scraper.id,
                         testResults = if (uiState.testScraperId == scraper.id) uiState.testResults else null,
                         testDiagnostics = if (uiState.testScraperId == scraper.id) uiState.testDiagnostics else null,
@@ -307,6 +310,22 @@ fun PluginScreenContent(
                     scraperName = pending.scraperName,
                     onConfirm = { viewModel.onEvent(PluginUiEvent.ConfirmPendingScraperEnable) },
                     onDismiss = { viewModel.onEvent(PluginUiEvent.DismissPendingScraperEnable) }
+                )
+            }
+        }
+    }
+
+    if (uiState.activeSettingsScraper != null) {
+        Popup(properties = PopupProperties(focusable = true)) {
+            uiState.activeSettingsScraper?.let { scraper ->
+                ScraperSettingsDialog(
+                    scraper = scraper,
+                    values = uiState.activeSettingsValues,
+                    onValueChange = { key, value ->
+                        viewModel.onEvent(PluginUiEvent.UpdateScraperSettingValue(key, value))
+                    },
+                    onSave = { viewModel.onEvent(PluginUiEvent.SaveScraperSettings) },
+                    onDismiss = { viewModel.onEvent(PluginUiEvent.CloseScraperSettings) }
                 )
             }
         }
@@ -1203,6 +1222,7 @@ private fun ScraperCard(
     scraper: ScraperInfo,
     onToggle: (Boolean) -> Unit,
     onTest: () -> Unit,
+    onSettingsClick: () -> Unit,
     isTesting: Boolean,
     testResults: List<LocalScraperResult>?,
     testDiagnostics: com.nuvio.tv.core.plugin.TestDiagnostics? = null,
@@ -1211,7 +1231,8 @@ private fun ScraperCard(
     var showResults by remember { mutableStateOf(false) }
     var isTestFocused by remember { mutableStateOf(false) }
     var isToggleFocused by remember { mutableStateOf(false) }
-    val isCardFocused = isTestFocused || isToggleFocused
+    var isSettingsFocused by remember { mutableStateOf(false) }
+    val isCardFocused = isTestFocused || isToggleFocused || isSettingsFocused
     val cardBorderColor by animateColorAsState(
         targetValue = if (isCardFocused) NuvioColors.FocusRing else Color.Transparent,
         label = "scraperCardBorder"
@@ -1307,6 +1328,29 @@ private fun ScraperCard(
                         }
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(stringResource(R.string.plugin_test_btn))
+                    }
+
+                    // Settings button
+                    if (!isReadOnly && scraper.settings.isNotEmpty()) {
+                        Button(
+                            onClick = onSettingsClick,
+                            modifier = Modifier.onFocusChanged { isSettingsFocused = it.isFocused },
+                            colors = ButtonDefaults.colors(
+                                containerColor = NuvioColors.Surface,
+                                contentColor = NuvioColors.TextPrimary,
+                                focusedContainerColor = NuvioColors.FocusBackground,
+                                focusedContentColor = NuvioColors.Primary
+                            ),
+                            shape = ButtonDefaults.shape(RoundedCornerShape(12.dp))
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Settings,
+                                contentDescription = stringResource(R.string.plugin_settings_title),
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(stringResource(R.string.plugin_settings_title))
+                        }
                     }
 
                     // Enable toggle
@@ -1554,4 +1598,344 @@ private fun MessageOverlay(
 private fun formatDate(timestamp: Long): String {
     val locale = Locale.getDefault()
     return SimpleDateFormat(android.text.format.DateFormat.getBestDateTimePattern(locale, "dMMMy"), locale).format(Date(timestamp))
+}
+
+@Composable
+private fun TextSettingRow(
+    setting: com.nuvio.tv.domain.model.ScraperSettingSchema,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    var isEditing by remember { mutableStateOf(false) }
+    var hasBeenFocused by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusRequester = remember { FocusRequester() }
+    val rowFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(isEditing) {
+        if (isEditing) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        } else {
+            if (hasBeenFocused) {
+                rowFocusRequester.requestFocus()
+            }
+            hasBeenFocused = false
+        }
+    }
+
+    Surface(
+        onClick = { isEditing = true },
+        colors = ClickableSurfaceDefaults.colors(
+            containerColor = Color.Transparent,
+            focusedContainerColor = NuvioColors.FocusBackground
+        ),
+        border = ClickableSurfaceDefaults.border(
+            focusedBorder = Border(
+                border = BorderStroke(2.dp, NuvioColors.FocusRing),
+                shape = RoundedCornerShape(12.dp)
+            )
+        ),
+        shape = ClickableSurfaceDefaults.shape(RoundedCornerShape(12.dp)),
+        scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),
+        modifier = Modifier.fillMaxWidth().focusRequester(rowFocusRequester)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f).padding(end = 16.dp)) {
+                Text(text = setting.name, style = MaterialTheme.typography.bodyLarge, color = NuvioColors.TextPrimary)
+                if (!setting.description.isNullOrEmpty()) {
+                    Text(text = setting.description, style = MaterialTheme.typography.bodySmall, color = NuvioColors.TextSecondary)
+                }
+            }
+
+            if (isEditing) {
+                Box(
+                    modifier = Modifier
+                        .width(200.dp)
+                        .background(NuvioColors.BackgroundElevated, RoundedCornerShape(8.dp))
+                        .border(1.dp, NuvioColors.Border, RoundedCornerShape(8.dp))
+                        .padding(horizontal = 8.dp, vertical = 6.dp)
+                ) {
+                    BasicTextField(
+                        value = value,
+                        onValueChange = onValueChange,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(focusRequester)
+                            .onFocusChanged {
+                                if (it.isFocused) {
+                                    hasBeenFocused = true
+                                }
+                                if (!it.isFocused && hasBeenFocused && isEditing) {
+                                    isEditing = false
+                                    hasBeenFocused = false
+                                    keyboardController?.hide()
+                                }
+                            },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done,
+                            autoCorrectEnabled = false
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                isEditing = false
+                                keyboardController?.hide()
+                            }
+                        ),
+                        textStyle = MaterialTheme.typography.bodyMedium.copy(
+                            color = NuvioColors.TextPrimary
+                        ),
+                        cursorBrush = SolidColor(NuvioColors.Primary),
+                        decorationBox = { innerTextField ->
+                            if (value.isEmpty()) {
+                                Text(
+                                    text = stringResource(R.string.plugin_settings_placeholder),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = NuvioColors.TextTertiary
+                                )
+                            }
+                            innerTextField()
+                        }
+                    )
+                }
+            } else {
+                val displayText = if (setting.type == "password") {
+                    "•".repeat(value.length.coerceAtLeast(1).coerceAtMost(10))
+                } else {
+                    value
+                }
+                Text(
+                    text = displayText.ifEmpty { stringResource(R.string.plugin_settings_placeholder) },
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (value.isEmpty()) NuvioColors.TextTertiary else NuvioColors.TextSecondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.width(200.dp),
+                    textAlign = TextAlign.End
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ScraperSettingsDialog(
+    scraper: ScraperInfo,
+    values: Map<String, Any>,
+    onValueChange: (String, Any) -> Unit,
+    onSave: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    val firstFocusRequester = remember { FocusRequester() }
+    val focusRequesterSave = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        firstFocusRequester.requestFocus()
+    }
+
+    BackHandler { onDismiss() }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.8f)),
+        contentAlignment = Alignment.Center
+    ) {
+        Surface(
+            onClick = { },
+            modifier = Modifier.width(620.dp),
+            colors = ClickableSurfaceDefaults.colors(
+                containerColor = NuvioColors.SurfaceVariant
+            ),
+            shape = ClickableSurfaceDefaults.shape(RoundedCornerShape(16.dp))
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = scraper.name,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = NuvioColors.TextPrimary
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = stringResource(R.string.plugin_settings_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = NuvioColors.TextSecondary
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f, fill = false)
+                        .padding(vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    itemsIndexed(scraper.settings) { index, setting ->
+                        val modifier = if (index == 0) Modifier.focusRequester(firstFocusRequester) else Modifier
+                        
+                        Box(modifier = modifier) {
+                            when (setting.type) {
+                                "boolean" -> {
+                                    val currentValue = (values[setting.key] as? Boolean) ?: false
+                                    Surface(
+                                        onClick = { onValueChange(setting.key, !currentValue) },
+                                        colors = ClickableSurfaceDefaults.colors(
+                                            containerColor = Color.Transparent,
+                                            focusedContainerColor = NuvioColors.FocusBackground
+                                        ),
+                                        border = ClickableSurfaceDefaults.border(
+                                            focusedBorder = Border(
+                                                border = BorderStroke(2.dp, NuvioColors.FocusRing),
+                                                shape = RoundedCornerShape(12.dp)
+                                            )
+                                        ),
+                                        shape = ClickableSurfaceDefaults.shape(RoundedCornerShape(12.dp)),
+                                        scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth().padding(12.dp),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Column(modifier = Modifier.weight(1f).padding(end = 16.dp)) {
+                                                Text(text = setting.name, style = MaterialTheme.typography.bodyLarge, color = NuvioColors.TextPrimary)
+                                                if (!setting.description.isNullOrEmpty()) {
+                                                    Text(text = setting.description, style = MaterialTheme.typography.bodySmall, color = NuvioColors.TextSecondary)
+                                                }
+                                            }
+                                            Switch(
+                                                checked = currentValue,
+                                                onCheckedChange = null,
+                                                colors = SwitchDefaults.colors(
+                                                    checkedThumbColor = NuvioColors.Secondary,
+                                                    checkedTrackColor = NuvioColors.Secondary.copy(alpha = 0.3f)
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+                                "select" -> {
+                                    val currentValue = (values[setting.key] as? String) ?: setting.defaultValue ?: ""
+                                    val options = setting.options ?: emptyList()
+                                    Surface(
+                                        onClick = {
+                                            if (options.isNotEmpty()) {
+                                                val currentIndex = options.indexOf(currentValue)
+                                                val nextIndex = (currentIndex + 1) % options.size
+                                                onValueChange(setting.key, options[nextIndex])
+                                            }
+                                        },
+                                        colors = ClickableSurfaceDefaults.colors(
+                                            containerColor = Color.Transparent,
+                                            focusedContainerColor = NuvioColors.FocusBackground
+                                        ),
+                                        border = ClickableSurfaceDefaults.border(
+                                            focusedBorder = Border(
+                                                border = BorderStroke(2.dp, NuvioColors.FocusRing),
+                                                shape = RoundedCornerShape(12.dp)
+                                            )
+                                        ),
+                                        shape = ClickableSurfaceDefaults.shape(RoundedCornerShape(12.dp)),
+                                        scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth().padding(12.dp),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Column(modifier = Modifier.weight(1f).padding(end = 16.dp)) {
+                                                Text(text = setting.name, style = MaterialTheme.typography.bodyLarge, color = NuvioColors.TextPrimary)
+                                                if (!setting.description.isNullOrEmpty()) {
+                                                    Text(text = setting.description, style = MaterialTheme.typography.bodySmall, color = NuvioColors.TextSecondary)
+                                                }
+                                            }
+                                            Text(
+                                                text = currentValue.ifEmpty { "None" },
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                color = NuvioColors.Primary,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        }
+                                    }
+                                }
+                                else -> {
+                                    val currentValue = (values[setting.key] as? String) ?: setting.defaultValue ?: ""
+                                    TextSettingRow(
+                                        setting = setting,
+                                        value = currentValue,
+                                        onValueChange = { onValueChange(setting.key, it) }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Surface(
+                        onClick = onDismiss,
+                        colors = ClickableSurfaceDefaults.colors(
+                            containerColor = NuvioColors.Surface,
+                            focusedContainerColor = NuvioColors.FocusBackground
+                        ),
+                        border = ClickableSurfaceDefaults.border(
+                            focusedBorder = Border(
+                                border = BorderStroke(2.dp, NuvioColors.FocusRing),
+                                shape = RoundedCornerShape(50)
+                            )
+                        ),
+                        shape = ClickableSurfaceDefaults.shape(RoundedCornerShape(50)),
+                        scale = ClickableSurfaceDefaults.scale(focusedScale = 1f)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.plugin_settings_cancel),
+                            modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = NuvioColors.TextPrimary
+                        )
+                    }
+
+                    Surface(
+                        onClick = onSave,
+                        modifier = Modifier.focusRequester(focusRequesterSave),
+                        colors = ClickableSurfaceDefaults.colors(
+                            containerColor = NuvioColors.Secondary,
+                            focusedContainerColor = NuvioColors.SecondaryVariant
+                        ),
+                        border = ClickableSurfaceDefaults.border(
+                            focusedBorder = Border(
+                                border = BorderStroke(2.dp, NuvioColors.FocusRing),
+                                shape = RoundedCornerShape(50)
+                            )
+                        ),
+                        shape = ClickableSurfaceDefaults.shape(RoundedCornerShape(50)),
+                        scale = ClickableSurfaceDefaults.scale(focusedScale = 1f)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.plugin_settings_save),
+                            modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = NuvioColors.OnSecondary
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

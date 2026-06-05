@@ -2537,4 +2537,11 @@
     <!-- Subtitle selection: unknown language fallback -->>
     <string name="subtitle_language_unknown">Desconhecido</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Configurações de variáveis</string>
+    <string name="plugin_settings_save">Salvar</string>
+    <string name="plugin_settings_cancel">Cancelar</string>
+    <string name="plugin_settings_saved">Configurações salvas com sucesso</string>
+    <string name="plugin_settings_placeholder">Inserir valor...</string>
 </resources>

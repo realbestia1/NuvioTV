@@ -880,4 +880,11 @@
     <string name="update_ignore">Negeer</string>
     <string name="playback_player_auto">Automatisch (Beste voor inhoud)</string>
     <string name="playback_player_auto_desc">ExoPlayer voor films en series · MPV voor anime</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Variabele instellingen</string>
+    <string name="plugin_settings_save">Opslaan</string>
+    <string name="plugin_settings_cancel">Annuleren</string>
+    <string name="plugin_settings_saved">Instellingen succesvol opgeslagen</string>
+    <string name="plugin_settings_placeholder">Voer waarde in...</string>
 </resources>

@@ -2390,4 +2390,11 @@
     <string name="trakt_comments_error_request_failed">Trakt 评论请求失败</string>
     <string name="trakt_library_error_fetch_list_items">获取列表项目失败</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">变量设置</string>
+    <string name="plugin_settings_save">保存</string>
+    <string name="plugin_settings_cancel">取消</string>
+    <string name="plugin_settings_saved">设置保存成功</string>
+    <string name="plugin_settings_placeholder">输入值...</string>
 </resources>

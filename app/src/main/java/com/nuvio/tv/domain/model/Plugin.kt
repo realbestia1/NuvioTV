@@ -33,6 +33,19 @@ data class PluginRepository(
 )
 
 /**
+ * Schema for a scraper setting
+ */
+@JsonClass(generateAdapter = true)
+data class ScraperSettingSchema(
+    val key: String,
+    val type: String, // "text", "password", "select", "boolean"
+    val name: String,
+    val description: String? = null,
+    val defaultValue: String? = null,
+    val options: List<String>? = null
+)
+
+/**
  * Represents manifest.json from a plugin repository
  */
 @JsonClass(generateAdapter = true)
@@ -63,7 +76,8 @@ data class ScraperManifestInfo(
     val formats: List<String>? = null,
     val supportedFormats: List<String>? = null,
     val supportsExternalPlayer: Boolean? = null,
-    val limited: Boolean? = null
+    val limited: Boolean? = null,
+    val settings: List<ScraperSettingSchema>? = null
 )
 
 /**
@@ -82,7 +96,8 @@ data class ScraperInfo(
     val contentLanguage: List<String>,
     val repositoryId: String,
     val formats: List<String>?,
-    val type: RepositoryType = RepositoryType.NUVIO_JS
+    val type: RepositoryType = RepositoryType.NUVIO_JS,
+    val settings: List<ScraperSettingSchema> = emptyList()
 ) {
     fun supportsType(type: String): Boolean {
         val targetTypes = when (type.lowercase()) {

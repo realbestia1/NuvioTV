@@ -1017,4 +1017,11 @@
     <string name="update_ignore">नज़रअंदाज़ करें</string>
     <string name="playback_player_auto">ऑटो (सामग्री के लिए सर्वश्रेष्ठ)</string>
     <string name="playback_player_auto_desc">ExoPlayer मूवीज़ और टीवी शोज़ के लिए · MPV एनीमे के लिए</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">चर सेटिंग्स</string>
+    <string name="plugin_settings_save">सहेजें</string>
+    <string name="plugin_settings_cancel">रद्द करें</string>
+    <string name="plugin_settings_saved">सेटिंग्स सफलतापूर्वक सहेजी गईं</string>
+    <string name="plugin_settings_placeholder">मान दर्ज करें...</string>
 </resources>

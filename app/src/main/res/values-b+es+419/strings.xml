@@ -2476,4 +2476,10 @@
     <string name="trakt_comments_error_request_failed">La solicitud de comentarios de Trakt falló</string>
     <string name="trakt_library_error_fetch_list_items">No se pudieron obtener los elementos de la lista</string>
 
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Configuración de variables</string>
+    <string name="plugin_settings_save">Guardar</string>
+    <string name="plugin_settings_cancel">Cancelar</string>
+    <string name="plugin_settings_saved">Configuración guardada correctamente</string>
+    <string name="plugin_settings_placeholder">Introducir valor...</string>
 </resources>

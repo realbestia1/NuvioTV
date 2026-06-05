@@ -2556,4 +2556,11 @@
     <!-- Actions -->
     <string name="action_import">Importuj</string>
     <string name="action_delete">Usuń</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Ustawienia zmiennych</string>
+    <string name="plugin_settings_save">Zapisz</string>
+    <string name="plugin_settings_cancel">Anuluj</string>
+    <string name="plugin_settings_saved">Ustawienia zostały zapisane pomyślnie</string>
+    <string name="plugin_settings_placeholder">Wprowadź wartość...</string>
 </resources>

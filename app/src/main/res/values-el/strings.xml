@@ -2451,4 +2451,11 @@
     <string name="trakt_comments_error_request_failed">Αποτυχία αιτήματος σχολίων Trakt</string>
     <string name="trakt_library_error_fetch_list_items">Αποτυχία ανάκτησης στοιχείων λίστας</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Ρυθμίσεις μεταβλητών</string>
+    <string name="plugin_settings_save">Αποθήκευση</string>
+    <string name="plugin_settings_cancel">Ακύρωση</string>
+    <string name="plugin_settings_saved">Οι ρυθμίσεις αποθηκεύτηκαν με επιτυχία</string>
+    <string name="plugin_settings_placeholder">Εισαγάγετε τιμή...</string>
 </resources>

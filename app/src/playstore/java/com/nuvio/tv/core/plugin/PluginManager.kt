@@ -44,6 +44,10 @@ class PluginManager {
 
     suspend fun toggleAllScrapersForRepo(repoId: String, enabled: Boolean) = Unit
 
+    suspend fun getScraperSettings(scraperId: String): Map<String, Any> = emptyMap()
+
+    suspend fun setScraperSettings(scraperId: String, settings: Map<String, Any>) = Unit
+
     suspend fun setPluginsEnabled(enabled: Boolean) = Unit
 
     suspend fun setGroupStreamsByRepository(enabled: Boolean) = Unit

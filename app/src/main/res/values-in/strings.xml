@@ -2476,4 +2476,11 @@
     <string name="trakt_comments_error_request_failed">Permintaan komentar Trakt gagal</string>
     <string name="trakt_library_error_fetch_list_items">Gagal mengambil item daftar</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Pengaturan Variabel</string>
+    <string name="plugin_settings_save">Simpan</string>
+    <string name="plugin_settings_cancel">Batal</string>
+    <string name="plugin_settings_saved">Pengaturan berhasil disimpan</string>
+    <string name="plugin_settings_placeholder">Masukkan nilai...</string>
 </resources>

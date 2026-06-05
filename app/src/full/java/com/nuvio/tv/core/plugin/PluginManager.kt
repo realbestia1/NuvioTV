@@ -607,6 +607,14 @@ class PluginManager @Inject constructor(
         dataStore.saveScrapers(updatedScrapers)
     }
 
+    suspend fun getScraperSettings(scraperId: String): Map<String, Any> {
+        return dataStore.getScraperSettings(scraperId)
+    }
+
+    suspend fun setScraperSettings(scraperId: String, settings: Map<String, Any>) {
+        dataStore.setScraperSettings(scraperId, settings)
+    }
+
     /**
      * Toggle all scrapers belonging to a repository
      */
@@ -1018,7 +1026,8 @@ class PluginManager @Inject constructor(
                     manifestEnabled = info.enabled,
                     logo = info.logo,
                     contentLanguage = info.contentLanguage ?: emptyList(),
-                    formats = info.formats
+                    formats = info.formats,
+                    settings = info.settings ?: emptyList()
                 )
                 
                 // Save code

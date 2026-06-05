@@ -853,4 +853,11 @@
     <string name="update_ignore">Ignoră</string>
       <string name="playback_player_auto">Automat (Cel mai bun pentru conținut)</string>
     <string name="playback_player_auto_desc">ExoPlayer pentru Filme și Seriale · MPV pentru Anime</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Setări variabile</string>
+    <string name="plugin_settings_save">Salvare</string>
+    <string name="plugin_settings_cancel">Anulare</string>
+    <string name="plugin_settings_saved">Setările au fost salvate cu succes</string>
+    <string name="plugin_settings_placeholder">Introduceți valoarea...</string>
 </resources>

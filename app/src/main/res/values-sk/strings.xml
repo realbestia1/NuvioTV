@@ -2477,4 +2477,11 @@
     <string name="trakt_comments_error_request_failed">Požiadavka Trakt komentárov zlyhala</string>
     <string name="trakt_library_error_fetch_list_items">Nepodarilo sa načítať položky zoznamu</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Nastavenie premenných</string>
+    <string name="plugin_settings_save">Uložiť</string>
+    <string name="plugin_settings_cancel">Zrušiť</string>
+    <string name="plugin_settings_saved">Nastavenie bolo úspešne uložené</string>
+    <string name="plugin_settings_placeholder">Zadajte hodnotu...</string>
 </resources>

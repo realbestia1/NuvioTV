@@ -1055,4 +1055,11 @@
     <string name="sub_advanced_section">רינדור כתוביות מתקדם</string>
     <string name="playback_player_auto">אוטומטי (הטוב ביותר לתוכן)</string>
     <string name="playback_player_auto_desc">ExoPlayer לסרטים ולתוכניות טלוויזיה · MPV לאנימה</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">הגדרות משתנים</string>
+    <string name="plugin_settings_save">שמור</string>
+    <string name="plugin_settings_cancel">ביטول</string>
+    <string name="plugin_settings_saved">ההגדרות נשמרו בהצלחה</string>
+    <string name="plugin_settings_placeholder">הזן ערך...</string>
 </resources>

@@ -2297,4 +2297,11 @@
     <string name="trakt_comments_error_request_failed">ட்ராக்ட் கருத்துகள் கோரிக்கை தோல்வியடைந்தது</string>
     <string name="trakt_library_error_fetch_list_items">பட்டியல் உருப்படிகளைப் பெற முடியவில்லை</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">மாறி அமைப்புகள்</string>
+    <string name="plugin_settings_save">சேமி</string>
+    <string name="plugin_settings_cancel">ரத்துசெய்</string>
+    <string name="plugin_settings_saved">அமைப்புகள் வெற்றிகரமாக சேமிக்கப்பட்டன</string>
+    <string name="plugin_settings_placeholder">மதிப்பை உள்ளிடவும்...</string>
 </resources>

@@ -1032,4 +1032,11 @@ Klaida: Bandomoji simuliuojama klaida — tai nėra tikras gedimas. Šaltinis gr
     <string name="watchlist_removed">Pašalinta iš žiūrėjimo sąrašo</string>
     <string name="playback_player_auto">Automatiškai (Geriausia turiniui)</string>
     <string name="playback_player_auto_desc">ExoPlayer filmams ir serialams · MPV animėms</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Kintamųjų nustatymai</string>
+    <string name="plugin_settings_save">Išsaugoti</string>
+    <string name="plugin_settings_cancel">Atšaukti</string>
+    <string name="plugin_settings_saved">Nustatymai sėkmingai išsaugoti</string>
+    <string name="plugin_settings_placeholder">Įveskite vertę...</string>
 </resources>

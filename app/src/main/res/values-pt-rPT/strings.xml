@@ -2462,4 +2462,11 @@
     <string name="trakt_comments_error_request_failed">O pedido de comentários do Trakt falhou</string>
     <string name="trakt_library_error_fetch_list_items">Falha ao obter os itens da lista</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Configurações de variáveis</string>
+    <string name="plugin_settings_save">Guardar</string>
+    <string name="plugin_settings_cancel">Cancelar</string>
+    <string name="plugin_settings_saved">Configurações guardadas com sucesso</string>
+    <string name="plugin_settings_placeholder">Inserir valor...</string>
 </resources>

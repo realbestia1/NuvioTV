@@ -1200,4 +1200,11 @@
     <string name="watchlist_removed">ウォッチリストから削除しました</string>
     <string name="playback_player_auto">自動（コンテンツに最適化）</string>
     <string name="playback_player_auto_desc">映画やドラマにはExoPlayer・アニメにはMPV</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">変数設定</string>
+    <string name="plugin_settings_save">保存</string>
+    <string name="plugin_settings_cancel">キャンセル</string>
+    <string name="plugin_settings_saved">設定が正常に保存されました</string>
+    <string name="plugin_settings_placeholder">値を入力...</string>
 </resources>

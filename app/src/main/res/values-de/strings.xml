@@ -2300,4 +2300,11 @@
     <string name="trakt_comments_error_request_failed">Trakt comments request failed</string>
     <string name="trakt_library_error_fetch_list_items">Failed to fetch list items</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Variableneinstellungen</string>
+    <string name="plugin_settings_save">Speichern</string>
+    <string name="plugin_settings_cancel">Abbrechen</string>
+    <string name="plugin_settings_saved">Einstellungen erfolgreich gespeichert</string>
+    <string name="plugin_settings_placeholder">Wert eingeben...</string>
 </resources>

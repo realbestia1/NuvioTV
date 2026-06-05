@@ -1965,4 +1965,11 @@
     <string name="tmdb_entity_error_load_named">Nepodařilo se načíst %1$s</string>
     <string name="tmdb_entity_error_load">Nepodařilo se načíst entitu TMDB</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Nastavení proměnných</string>
+    <string name="plugin_settings_save">Uložit</string>
+    <string name="plugin_settings_cancel">Zrušit</string>
+    <string name="plugin_settings_saved">Nastavení bylo úspěšně uloženo</string>
+    <string name="plugin_settings_placeholder">Zadejte hodnotu...</string>
 </resources>

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.nuvio.tv.R
 import com.nuvio.tv.core.plugin.PluginManager
 import com.nuvio.tv.core.plugin.PluginSafety
+import com.nuvio.tv.domain.model.ScraperInfo
 import com.nuvio.tv.core.profile.ProfileManager
 import com.nuvio.tv.core.qr.QrCodeGenerator
 import com.nuvio.tv.core.server.DeviceIpAddress
@@ -103,6 +104,10 @@ class PluginViewModel @Inject constructor(
             PluginUiEvent.RejectPendingRepoChange -> rejectPendingRepoChange()
             PluginUiEvent.ConfirmPendingScraperEnable -> confirmPendingScraperEnable()
             PluginUiEvent.DismissPendingScraperEnable -> dismissPendingScraperEnable()
+            is PluginUiEvent.OpenScraperSettings -> openScraperSettings(event.scraper)
+            is PluginUiEvent.UpdateScraperSettingValue -> updateScraperSettingValue(event.key, event.value)
+            PluginUiEvent.SaveScraperSettings -> saveScraperSettings()
+            PluginUiEvent.CloseScraperSettings -> closeScraperSettings()
         }
     }
 
@@ -267,6 +272,56 @@ class PluginViewModel @Inject constructor(
                         )
                     }
                 }
+            )
+        }
+    }
+
+    private fun openScraperSettings(scraper: ScraperInfo) {
+        viewModelScope.launch {
+            val stored = pluginManager.getScraperSettings(scraper.id)
+            val initial = scraper.settings.associate { schema ->
+                schema.key to (stored[schema.key] ?: schema.defaultValue ?: when (schema.type) {
+                    "boolean" -> false
+                    else -> ""
+                })
+            }
+            _uiState.update {
+                it.copy(
+                    activeSettingsScraper = scraper,
+                    activeSettingsValues = initial
+                )
+            }
+        }
+    }
+
+    private fun updateScraperSettingValue(key: String, value: Any) {
+        _uiState.update {
+            it.copy(
+                activeSettingsValues = it.activeSettingsValues + (key to value)
+            )
+        }
+    }
+
+    private fun saveScraperSettings() {
+        val scraper = _uiState.value.activeSettingsScraper ?: return
+        val values = _uiState.value.activeSettingsValues
+        viewModelScope.launch {
+            pluginManager.setScraperSettings(scraper.id, values)
+            _uiState.update {
+                it.copy(
+                    activeSettingsScraper = null,
+                    activeSettingsValues = emptyMap(),
+                    successMessage = context.getString(R.string.plugin_settings_saved)
+                )
+            }
+        }
+    }
+
+    private fun closeScraperSettings() {
+        _uiState.update {
+            it.copy(
+                activeSettingsScraper = null,
+                activeSettingsValues = emptyMap()
             )
         }
     }

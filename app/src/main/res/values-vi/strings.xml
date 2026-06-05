@@ -900,4 +900,11 @@
     <string name="update_ignore">Bỏ qua</string>
     <string name="playback_player_auto">Tự động (Tốt nhất cho nội dung)</string>
     <string name="playback_player_auto_desc">ExoPlayer cho Phim &amp; TV Show · MPV cho Anime</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Cài đặt biến</string>
+    <string name="plugin_settings_save">Lưu</string>
+    <string name="plugin_settings_cancel">Hủy</string>
+    <string name="plugin_settings_saved">Cài đặt đã được lưu thành công</string>
+    <string name="plugin_settings_placeholder">Nhập giá trị...</string>
 </resources>

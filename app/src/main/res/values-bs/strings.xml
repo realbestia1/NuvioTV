@@ -1525,4 +1525,10 @@
     <string name="collections_tab_all">Sve</string>
     <string name="collections_tab_combined">Kombinovano</string>
 
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Postavke varijabli</string>
+    <string name="plugin_settings_save">Spremi</string>
+    <string name="plugin_settings_cancel">Otkaži</string>
+    <string name="plugin_settings_saved">Postavke su uspješno spremljene</string>
+    <string name="plugin_settings_placeholder">Unesite vrijednost...</string>
 </resources>

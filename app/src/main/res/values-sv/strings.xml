@@ -1636,4 +1636,11 @@
     <string name="collections_card_subtitle">Gruppera kataloger i mappar på din hemskärm</string>
     <string name="collections_tab_all">Alla</string>
     <string name="collections_tab_combined">Kombinerat</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Variabelinställningar</string>
+    <string name="plugin_settings_save">Spara</string>
+    <string name="plugin_settings_cancel">Avbryt</string>
+    <string name="plugin_settings_saved">Inställningarna sparades framgångsrikt</string>
+    <string name="plugin_settings_placeholder">Ange värde...</string>
 </resources>

@@ -2663,4 +2663,11 @@
     <string name="playback_net_connection_count_sub">Nombre de connexions TCP parallèles. Des valeurs plus élevées augmentent l’utilisation de la mémoire et le débit, mais avec un rendement décroissant.</string>
     <string name="playback_net_chunk_size">Taille des blocs</string>
     <string name="playback_net_chunk_size_sub">Taille de chaque bloc de téléchargement par connexion. Des blocs plus grands réduisent la surcharge mais utilisent plus de mémoire.</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Paramètres des variables</string>
+    <string name="plugin_settings_save">Enregistrer</string>
+    <string name="plugin_settings_cancel">Annuler</string>
+    <string name="plugin_settings_saved">Paramètres enregistrés avec succès</string>
+    <string name="plugin_settings_placeholder">Entrer la valeur...</string>
 </resources>

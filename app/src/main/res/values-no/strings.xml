@@ -1143,4 +1143,11 @@
     <string name="watchlist_removed">Fjernet fra ønskelisten</string>
     <string name="playback_player_auto">Automatisk (Best for innhold)</string>
     <string name="playback_player_auto_desc">ExoPlayer for filmer og serier · MPV for anime</string>
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Variabelinnstillinger</string>
+    <string name="plugin_settings_save">Lagre</string>
+    <string name="plugin_settings_cancel">Avbryt</string>
+    <string name="plugin_settings_saved">Innstillingene ble lagret</string>
+    <string name="plugin_settings_placeholder">Skriv inn verdi...</string>
 </resources>

@@ -1450,6 +1450,11 @@
 
     <!-- Plugin screen -->
 <string name="plugin_version">Versione %1$s</string>
+<string name="plugin_settings_title">Impostazioni Variabili</string>
+<string name="plugin_settings_save">Salva</string>
+<string name="plugin_settings_cancel">Annulla</string>
+<string name="plugin_settings_saved">Impostazioni salvate con successo</string>
+<string name="plugin_settings_placeholder">Inserisci valore...</string>
 
     <!-- Stream screen -->
 <string name="stream_episode_label">S%1$d E%2$d</string>

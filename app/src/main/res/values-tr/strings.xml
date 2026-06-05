@@ -2421,4 +2421,11 @@
     <string name="supporters_error_api_http">Bağış API hatası: %1$d</string>
     <string name="sponsors_error_api_http">Sponsor API hatası: %1$d</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Değişken Ayarları</string>
+    <string name="plugin_settings_save">Kaydet</string>
+    <string name="plugin_settings_cancel">İptal</string>
+    <string name="plugin_settings_saved">Ayarlar başarıyla kaydedildi</string>
+    <string name="plugin_settings_placeholder">Değer girin...</string>
 </resources>

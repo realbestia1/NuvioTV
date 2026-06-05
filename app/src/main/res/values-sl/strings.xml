@@ -2212,4 +2212,11 @@
     <string name="trakt_comments_error_request_failed">Zahteva za komentarje Trakt ni uspela</string>
     <string name="trakt_library_error_fetch_list_items">Pridobivanje elementov seznama ni uspelo</string>
 
+
+    <!-- Plugin Settings -->
+    <string name="plugin_settings_title">Nastavitve spremenljivk</string>
+    <string name="plugin_settings_save">Shrani</string>
+    <string name="plugin_settings_cancel">Prekliči</string>
+    <string name="plugin_settings_saved">Nastavitve so bile uspešno shranjene</string>
+    <string name="plugin_settings_placeholder">Vnesite vrednost...</string>
 </resources>

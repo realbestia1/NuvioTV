@@ -26,7 +26,10 @@ data class PluginUiState(
     // Pending change from phone
     val pendingRepoChange: PendingRepoChangeInfo? = null,
     // Pending scraper enable confirmation
-    val pendingScraperEnable: PendingScraperEnableInfo? = null
+    val pendingScraperEnable: PendingScraperEnableInfo? = null,
+    // Custom Scraper Settings Editor State
+    val activeSettingsScraper: ScraperInfo? = null,
+    val activeSettingsValues: Map<String, Any> = emptyMap()
 )
 
 data class PendingRepoChangeInfo(
@@ -60,4 +63,9 @@ sealed interface PluginUiEvent {
     object RejectPendingRepoChange : PluginUiEvent
     object ConfirmPendingScraperEnable : PluginUiEvent
     object DismissPendingScraperEnable : PluginUiEvent
+    // Custom Scraper Settings events
+    data class OpenScraperSettings(val scraper: ScraperInfo) : PluginUiEvent
+    data class UpdateScraperSettingValue(val key: String, val value: Any) : PluginUiEvent
+    object SaveScraperSettings : PluginUiEvent
+    object CloseScraperSettings : PluginUiEvent
 }
